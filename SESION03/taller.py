@@ -83,4 +83,4 @@ def main():
 
     p = CuentaBancaria(1,2,3,4,5,6)
     
-    print(get_numeroCta())
+    print(CuentaBancaria)
