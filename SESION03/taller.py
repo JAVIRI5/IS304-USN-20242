@@ -16,71 +16,65 @@ Aplicar encapsulamiento y definir los métodos apropiados para controlar y gesti
 Utilizar un menu para las diferentes opciones, tales como aperturaCta, consignar, retirar y transferencia entre otros.
 '''
 
-'''
-("Presione 1 para ver el numero de Cuenta")
-("Presione 2 para atender a la persona al frente de la fila")
-("Presione 3 para mostrar el estado de la fila")
-("Presione 4 para finalizar")
-("Presione 5 para finalizar")
-("Presione 6 para finalizar")
-("Presione 7 para finalizar")
-'''
-            
 class CuentaBancaria:
-    
-    def __init__(self,numeroCta,nombreCliente,saldoCta,fechaApertura,ultimoRetiro,ultimaConsignacion):
-        
-        set(numeroCta,nombreCliente,saldoCta,fechaApertura,ultimoRetiro,ultimaConsignacion)
-    
-    def set (self,numeroCta,nombreCliente,saldoCta,fechaApertura,ultimoRetiro,ultimaConsignacion):
-        
+    def __init__(self, numeroCta, nombreCliente, saldoCta, fechaApertura):
         self.__numeroCta = numeroCta
         self.__nombreCliente = nombreCliente
         self.__saldoCta = saldoCta
         self.__fechaApertura = fechaApertura
-        self.__ultimoRetiro = ultimoRetiro
-        self.__ultimaConsignacion = ultimaConsignacion
-    
-    def set_numeroCta(self,x):
-        self.__numeroCta = x
-    
-    def set_nombreCliente(self,x):
-        self.__nombreCliente = x
-        
-    def set_saldoCta(self,x):
-        self.__saldoCta = x
-        
-    def set_fechaApertura(self,x):
-        self.__fechaApertura = x
-        
-    def set_ultimoRetiro(self,x):
-        self.__ultimoRetiro = x
-        
-    def set_ultimaConsignacion(self,x):
-        self.__ultimaConsignacion = x
-        
-    
-    def get_numeroCta(self,):
-        return self.__numeroCta
-    
-    def get_nombreCliente(self,):
-        return self.__nombreCliente
-        
-    def get_saldoCta(self,):
-        return self.__saldoCta
-        
-    def get_fechaApertura(self,):
-        return self.__fechaApertura
-    
-    def get_ultimoRetiro(self,):
-        return self.__ultimoRetiro
-        
-    def get_ultimaConsignacion(self,):
-        return self.__ultimaConsignacion
-        
-    
-def main():
+        self.__ultimoRetiro = 0
+        self.__ultimaConsignacion = 0
 
-    p = CuentaBancaria(1,2,3,4,5,6)
-    
-    print(CuentaBancaria)
+    def consignar(self, monto):
+        if monto > 0:
+            self.__saldoCta += monto
+            self.__ultimaConsignacion = monto
+            print(f"Se ha consignado {monto} en la cuenta.")
+        else:
+            print("El monto de consignación debe ser mayor que cero.")
+
+    def retirar(self, monto):
+        if monto > 0 and monto <= self.__saldoCta:
+            self.__saldoCta -= monto
+            self.__ultimoRetiro = monto
+            print(f"Se ha retirado {monto} de la cuenta.")
+        else:
+            print("Saldo insuficiente o monto inválido para retiro.")
+
+    def mostrar_detalles(self):
+        print(f"Cliente: {self.__nombreCliente}")
+        print(f"Número de cuenta: {self.__numeroCta}")
+        print(f"Saldo actual: {self.__saldoCta}")
+        print(f"Fecha de apertura: {self.__fechaApertura}")
+        print(f"Último retiro: {self.__ultimoRetiro}")
+        print(f"Última consignación: {self.__ultimaConsignacion}")
+
+# Función para mostrar el menú
+def mostrar_menu():
+    print("\nMenú:")
+    print("1. Mostrar detalles de la cuenta")
+    print("2. Consignar dinero")
+    print("3. Retirar dinero")
+    print("4. Salir")
+
+# Crear una instancia de CuentaBancaria
+cuenta = CuentaBancaria(12345, "Juan Pérez", 1000.0, "01/01/2023")
+
+# Mostrar opciones del menú
+while True:
+    mostrar_menu()
+    opcion = input("Ingrese la opción deseada: ")
+
+    if opcion == "1":
+        cuenta.mostrar_detalles()
+    elif opcion == "2":
+        monto = float(input("Ingrese el monto a consignar: "))
+        cuenta.consignar(monto)
+    elif opcion == "3":
+        monto = float(input("Ingrese el monto a retirar: "))
+        cuenta.retirar(monto)
+    elif opcion == "4":
+        print("¡Hasta luego!")
+        break
+    else:
+        print("Opción inválida. Intente nuevamente.")
