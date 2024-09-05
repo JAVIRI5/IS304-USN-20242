@@ -49,32 +49,49 @@ class CuentaBancaria:
         print(f"Último retiro: {self.__ultimoRetiro}")
         print(f"Última consignación: {self.__ultimaConsignacion}")
 
-# Función para mostrar el menú
-def mostrar_menu():
-    print("\nMenú:")
-    print("1. Mostrar detalles de la cuenta")
-    print("2. Consignar dinero")
-    print("3. Retirar dinero")
-    print("4. Salir")
+# Función para crear una nueva cuenta
+def crear_cuenta():
+    numeroCta = int(input("Ingrese el número de cuenta: "))
+    nombreCliente = input("Ingrese el nombre del cliente: ")
+    saldoInicial = float(input("Ingrese el saldo inicial: "))
+    fechaApertura = input("Ingrese la fecha de apertura (dd/mm/aaaa): ")
+    return CuentaBancaria(numeroCta, nombreCliente, saldoInicial, fechaApertura)
 
-# Crear una instancia de CuentaBancaria
-cuenta = CuentaBancaria(12345, "Juan Pérez", 1000.0, "01/01/2023")
+# Crear una instancia de CuentaBancaria al inicio
+cuenta = None
 
 # Mostrar opciones del menú
 while True:
-    mostrar_menu()
+    print("\nMenú:")
+    print("1. Crear cuenta")
+    print("2. Mostrar detalles de la cuenta")
+    print("3. Consignar dinero")
+    print("4. Retirar dinero")
+    print("5. Salir")
     opcion = input("Ingrese la opción deseada: ")
 
     if opcion == "1":
-        cuenta.mostrar_detalles()
+        cuenta = crear_cuenta()
     elif opcion == "2":
-        monto = float(input("Ingrese el monto a consignar: "))
-        cuenta.consignar(monto)
+        if cuenta:
+            cuenta.mostrar_detalles()
+        else:
+            print("Primero cree una cuenta.")
     elif opcion == "3":
-        monto = float(input("Ingrese el monto a retirar: "))
-        cuenta.retirar(monto)
+        if cuenta:
+            monto = float(input("Ingrese el monto a consignar: "))
+            cuenta.consignar(monto)
+        else:
+            print("Primero cree una cuenta.")
     elif opcion == "4":
+        if cuenta:
+            monto = float(input("Ingrese el monto a retirar: "))
+            cuenta.retirar(monto)
+        else:
+            print("Primero cree una cuenta.")
+    elif opcion == "5":
         print("¡Hasta luego!")
         break
     else:
         print("Opción inválida. Intente nuevamente.")
+
