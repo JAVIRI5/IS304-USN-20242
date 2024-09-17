@@ -1,1 +1,116 @@
-
+import java.util.Scanner;
+ 
+public class Sudoku {
+    private int[][] matriz;
+ 
+    // Constructor para inicializar el tablero vacío
+    public Sudoku() {
+        matriz = new int[9][9];
+    }
+ 
+    // Método para mostrar el tablero de Sudoku
+    public void mostrarTablero() {
+        System.out.println("Tablero de Sudoku:");
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matriz[i][j] == 0) {
+                    System.out.print(". ");
+                } else {
+                    System.out.print(matriz[i][j] + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+ 
+    // Método para ingresar un número en una posición específica
+    public boolean ingresarNumero(int fila, int columna, int numero) {
+        if (fila >= 0 && fila < 9 && columna >= 0 && columna < 9 && numero >= 1 && numero <= 9) {
+            if (matriz[fila][columna] != 0) {
+                System.out.println("La celda en la posición (" + fila + "," + columna + ") ya está llena con el número " + matriz[fila][columna] + ".");
+                System.out.print("¿Desea modificar el número? (sí/no): ");
+                Scanner scanner = new Scanner(System.in);
+                String respuesta = scanner.next();
+ 
+                if (!respuesta.equalsIgnoreCase("sí")) {
+                    return false;
+                }
+            }
+ 
+            if (esValido(fila, columna, numero)) {
+                matriz[fila][columna] = numero;
+                return true;
+            } else {
+                System.out.println("Número no válido en la posición (" + fila + "," + columna + "). Verifique las reglas del Sudoku.");
+                return false;
+            }
+        } else {
+            System.out.println("Número o posición inválida. Asegúrese de que el número esté entre 1 y 9 y las posiciones entre 0 y 8.");
+            return false;
+        }
+    }
+ 
+    // Método para validar que el número no se repita en la fila, columna o subcuadro 3x3
+    private boolean esValido(int fila, int columna, int numero) {
+        // Validar fila
+        for (int j = 0; j < 9; j++) {
+            if (matriz[fila][j] == numero) {
+                return false;
+            }
+        }
+ 
+        // Validar columna
+        for (int i = 0; i < 9; i++) {
+            if (matriz[i][columna] == numero) {
+                return false;
+            }
+        }
+ 
+        // Validar subcuadro 3x3
+        int inicioFila = (fila / 3) * 3;
+        int inicioColumna = (columna / 3) * 3;
+        for (int i = inicioFila; i < inicioFila + 3; i++) {
+            for (int j = inicioColumna; j < inicioColumna + 3; j++) {
+                if (matriz[i][j] == numero) {
+                    return false;
+                }
+            }
+        }
+ 
+        return true;
+    }
+ 
+    // Método principal para jugar al Sudoku
+    public static void main(String[] args) {
+        Sudoku sudoku = new Sudoku();
+        Scanner scanner = new Scanner(System.in);
+        boolean jugar = true;
+ 
+        while (jugar) {
+            sudoku.mostrarTablero();
+ 
+            System.out.print("Ingrese la fila (0-8): ");
+            int fila = scanner.nextInt();
+ 
+            System.out.print("Ingrese la columna (0-8): ");
+            int columna = scanner.nextInt();
+ 
+            System.out.print("Ingrese el número (1-9): ");
+            int numero = scanner.nextInt();
+ 
+            boolean ingresoExitoso = sudoku.ingresarNumero(fila, columna, numero);
+            if (!ingresoExitoso) {
+                System.out.println("Intento fallido. Intente de nuevo.");
+            }
+ 
+            System.out.print("¿Desea continuar? (sí/no): ");
+            String respuesta = scanner.next();
+            if (respuesta.equalsIgnoreCase("no")) {
+                jugar = false;
+            }
+        }
+ 
+        scanner.close();
+        System.out.println("¡Gracias por jugar al Sudoku!");
+    }
+}
